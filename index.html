@@ -10,7 +10,8 @@
     <link rel="dns-prefetch" href="https://connect.facebook.net">
     <link rel="dns-prefetch" href="https://script.google.com">
     <link rel="preload" as="image" href="Photos/Hero1-compressed.jpg" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,7 +27,7 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             font-size: 16px;
             line-height: 1.7;
             color: var(--text);
@@ -35,7 +36,7 @@
         }
 
         h1, h2, h3, h4 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', Times, serif;
             line-height: 1.2;
             font-weight: 400;
         }
@@ -2225,6 +2226,7 @@ function spotlightHover(on) {
 </div>
 
 <script>
+try {
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -2399,21 +2401,36 @@ function spotlightHover(on) {
         });
     }, { threshold: 0.15 });
     document.querySelectorAll('.discover-item').forEach(item => observer.observe(item));
+} catch(err) {
+    console.error('Main script error:', err);
+    // Page will still render even if JavaScript fails
+}
 </script>
 
-<!-- Meta Pixel Code (Async) -->
+<!-- Meta Pixel Code (Non-Blocking with Error Handling) -->
 <script>
 (function() {
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=true;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=true;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s);}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1754866985935089');
-    fbq('track', 'PageView');
+    try {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=true;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=true;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s);}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+        // Add timeout fallback
+        setTimeout(function() {
+            if (typeof fbq === 'function') {
+                fbq('init', '1754866985935089');
+                fbq('track', 'PageView');
+            }
+        }, 100);
+    } catch(err) {
+        // Silently fail - don't block page render
+        console.error('Meta Pixel initialization failed:', err);
+    }
 })();
 </script>
 <noscript><img height="1" width="1" style="display:none"
