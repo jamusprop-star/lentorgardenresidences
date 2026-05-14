@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="al:ios:url" content="https://www.thomsonreserve-singapore.com/" />
+    <meta property="al:android:url" content="https://www.thomsonreserve-singapore.com/" />
+    <meta property="al:web:should_fallback" content="true" />
     <title>Thomson Reserve – New Launch District 20</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2420,13 +2423,22 @@ try {
         s.parentNode.insertBefore(t,s);}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
 
-        // Add timeout fallback
-        setTimeout(function() {
+        // Add timeout fallback with retry logic
+        let attempts = 0;
+        const maxAttempts = 10;
+        const checkInterval = 100;
+
+        function initPixel() {
             if (typeof fbq === 'function') {
                 fbq('init', '1754866985935089');
                 fbq('track', 'PageView');
+            } else if (attempts < maxAttempts) {
+                attempts++;
+                setTimeout(initPixel, checkInterval);
             }
-        }, 100);
+        }
+
+        setTimeout(initPixel, 100);
     } catch(err) {
         // Silently fail - don't block page render
         console.error('Meta Pixel initialization failed:', err);
