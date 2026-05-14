@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; scroll-padding-top: 80px; }
 
         :root {
             --teal:         #2A5D67;
@@ -976,6 +976,7 @@
             .elevated-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
+            *, *::before, *::after { scroll-padding-top: 70px; }
             .nav { padding: 0 24px; height: 70px; }
             .section { padding: 60px 24px; }
             .hero { height: 560px; margin-top: 70px; }
@@ -1371,7 +1372,7 @@
 </section>
 
 <!-- ABOUT -->
-<section class="section about">
+<section class="section about" id="pricing">
     <div class="section-inner">
         <!-- Meta row -->
         <div class="about-meta">
@@ -1672,7 +1673,7 @@ function spotlightHover(on) {
 </script>
 
 <!-- E-BROCHURE -->
-<section class="section ebrochure">
+<section class="section ebrochure" id="brochure">
     <div class="section-inner">
         <div class="ebrochure-grid">
             <picture>
@@ -1689,7 +1690,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- KEY DEVELOPMENT INFO -->
-<section class="section key-info">
+<section class="section key-info" id="key-info">
     <div class="section-inner">
         <h2 class="section-title">Key Development Information</h2>
         <div class="key-grid">
@@ -1774,7 +1775,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- FLOOR PLANS -->
-<section class="section floor-plans">
+<section class="section floor-plans" id="floor-plans">
     <div class="section-inner">
         <h2 class="section-title">Floor Plans</h2>
         <div class="floor-grid">
@@ -1807,7 +1808,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- PROJECT HIGHLIGHTS -->
-<section class="section highlights">
+<section class="section highlights" id="location">
     <div class="section-inner">
         <h2 class="section-title">Project Highlights</h2>
         <div class="highlights-grid">
@@ -1832,7 +1833,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- SITE PLAN -->
-<section class="section site-plan">
+<section class="section site-plan" id="site-plan">
     <div class="section-inner">
         <div class="spotlight" id="siteplan-spotlight">
             <!-- Left: text block -->
@@ -1870,7 +1871,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- SHOWFLAT VIEWING -->
-<section class="cta-showflat">
+<section class="cta-showflat" id="showflat">
     <div class="cta-container">
         <div class="cta-content">
             <div class="cta-left">
@@ -1923,7 +1924,7 @@ function spotlightHover(on) {
 </section>
 
 <!-- LIVE ELEVATED -->
-<section class="section live-elevated">
+<section class="section live-elevated" id="features">
     <div class="section-inner">
         <h2 class="section-title">Live Elevated</h2>
         <div class="elevated-grid">
@@ -2240,6 +2241,47 @@ try {
             }
         });
     });
+
+    // Handle direct hash navigation from Facebook ads
+    window.addEventListener('load', function() {
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                setTimeout(() => {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    });
+
+    // Track anchor navigation for Facebook ad optimization
+    function trackAnchorNavigation() {
+        const hash = window.location.hash.substring(1);
+        if (hash && typeof fbq !== 'undefined') {
+            const sectionMap = {
+                'floor-plans': 'Floor Plans',
+                'showflat': 'Showflat Viewing',
+                'pricing': 'Pricing',
+                'brochure': 'E-Brochure',
+                'location': 'Location',
+                'site-plan': 'Site Plan',
+                'key-info': 'Key Info',
+                'features': 'Features',
+                'discover': 'Discover',
+                'enquiry': 'Enquiry Form'
+            };
+
+            const sectionName = sectionMap[hash] || hash;
+            fbq('track', 'ViewContent', {
+                content_name: sectionName,
+                content_category: 'Section Navigation',
+                content_type: 'anchor_link'
+            });
+        }
+    }
+
+    window.addEventListener('load', trackAnchorNavigation);
+    window.addEventListener('hashchange', trackAnchorNavigation);
 
     // Form validation function
     function validateForm(form) {
