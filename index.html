@@ -167,7 +167,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; scroll-padding-top: 80px; }
 
         :root {
-            --teal:         #2A5D67;
+            --teal:         #192C37;
             --brass:        #E07A5F;
             --charcoal:     #1A1A1A;	
             --white:        #FFFFFF;
@@ -247,7 +247,7 @@
         .hero {
             margin-top: 80px;
             position: relative;
-            height: 680px;
+            height: 750px;
             overflow: hidden;
             display: flex; align-items: center; justify-content: center;
             text-align: center; color: var(--white);
@@ -261,7 +261,7 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             opacity: 0;
-            transition: opacity 1.4s ease-in-out;
+            transition: opacity 1.8s ease-in-out;
             background-size: cover;
             background-position: center;
         }
@@ -272,8 +272,8 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(
                 to bottom,
-                rgba(0,0,0,0.01) 0%,
-                rgba(0,0,0,0.61) 50%,
+                rgba(0,0,0,0.01) 100%,
+                rgba(0,0,0,0.61) 000%,
                 rgba(0,0,0,0.99) 100%
             );
             z-index: 1;
@@ -308,10 +308,27 @@
             position: relative;
             z-index: 3;
         }
+        .hero-inner::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280%;
+            height: 300%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,0.7) 0%,
+                rgba(0,0,0,0.4) 60%,
+                transparent 80%
+            );
+            z-index: -1;
+            pointer-events: none;
+        }
         .hero h1 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 72px;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 22px;
             letter-spacing: -0.03em;
             line-height: 1.1;
@@ -389,7 +406,7 @@
             border: 1px solid var(--teal);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(47,54,64,0.2);
+            box-shadow: 0 6px 24px rgba(224, 122, 95, 0.35);
             position: relative;
             overflow: hidden;
         }
@@ -1389,10 +1406,11 @@
             New Launch · District 26 · Lentor MRT
         </div>
         <h1 style="text-align:center;">
-            <img src="LentorPhotos/LentorGardensWhite.webp" alt="Lentor Gardens Residences - New Launch Condo Near Lentor MRT District 26" style="max-width:320px;width:100%;display:block;margin:0 auto 8px;">
+            <span class="title-line1">Lentor Gardens</span>
+			<span class="title-line2">Residences</span>
             <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0;">Lentor Gardens Residences - New Launch Condo at Lentor Gardens, District 26</span>
         </h1>
-        <p class="hero-desc" style="text-transform:uppercase;letter-spacing:0.08em;font-weight:500;font-size:12px;">Lowest Land Cost Advantage in Lentor  · Launching July 4th, 2026</p>
+        <p class="hero-desc" style="text-transform:uppercase;letter-spacing:0.08em;font-weight:500;font-size:12px;">Singapore's newest private residential enclave where growth potential, connectivity, and nature converge in District 26.</p>
         <div class="hero-ctas">
             <button class="btn-primary" id="open-brochure-lb">Download e-Brochure</button>
             <button class="btn-secondary open-lb">View Price List</button>
